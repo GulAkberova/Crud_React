@@ -5,7 +5,8 @@ import React,{useEffect, useState} from 'react';
 function App() {
   const [crud, setCrud] = useState([]);
   const[value,setValue]=useState('')
-
+  const[count,setCount]=useState(77)
+  console.log(count)
 
   useEffect(()=>{
     fetch('https://northwind.vercel.app/api/orders')
@@ -20,14 +21,20 @@ function App() {
       let newCrud=crud.filter(i=>i.id !== id)
       setCrud(newCrud
         
-        )
+         )
         
     }
   return (
       <>
     <div className='search_div'>
+      <div>
       <label>Search</label>
       <input type={'text'} placeholder='Search' onChange={(e)=>setValue(e.target.value)} />
+      </div>
+      <div>
+        <label>Filter by Count</label>
+        <input type={'number'} placeholder='Count' onChange={(e)=>setCount(e.target.value)}/>
+      </div>
     </div>
 
       <table  id="customers">
@@ -43,7 +50,7 @@ function App() {
         </thead>
         <tbody>
            {
-              crud.filter(b=>b.shipName.toLowerCase().includes(value)).map((a,key)=>{
+              crud.slice(0,count).filter(b=>b.shipName.toLowerCase().includes(value)).map((a,key)=>{
               return(
                 <tr key={a.id}>
                   <td>{a.id}</td>
